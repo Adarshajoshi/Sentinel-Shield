@@ -40,7 +40,7 @@ OpenAI API Key (or local LLM via Ollama)
 
 2. Installation
 # Clone the repo
-git clone https://github.com/Adarshajoshi/sentinel-shield.git
+git clone https://github.com/Adarshajoshi/Sentinel-Shield.git
 cd sentinel-shield
 
 # Install dependencies
