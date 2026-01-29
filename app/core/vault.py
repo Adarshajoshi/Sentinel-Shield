@@ -2,7 +2,7 @@ import uuid
 
 class SecureVault:
     def __init__(self):
-        self._vault = {}
+        self._storage = {}
     
     def store_secret(self,session_id:str,original_value:str,entity_type:str)->str:
         if session_id not in self._storage:

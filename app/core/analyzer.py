@@ -23,10 +23,3 @@ class PIIHandler:
     def analyze_text(self, text:str):
         return self.analyzer.analyze(text=text,language='en')
     
-
-if __name__ == "__main__":
-    handler=PIIHandler()
-    test_text="I am working on PROJ-99999 today"
-    result=handler.analyze(test_text)
-    for res in result:
-        print(f"Found {res.entity_type}, Score: {res.score}") 

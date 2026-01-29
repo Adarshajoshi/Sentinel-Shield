@@ -1,0 +1,25 @@
+# Python Environment
+venv/
+env/
+.env
+*.pyc
+__pycache__/
+
+# Distribution / Build
+dist/
+build/
+*.egg-info/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Project Specific
+*.log
