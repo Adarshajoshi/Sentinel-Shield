@@ -6,13 +6,33 @@ class ShieldEngine:
     def __init__(self):
         self.handler=PIIHandler()
         self.vault=SecureVault()
+    
+    def _remove_overlaps(self,analysis_result):
+        #Filters out entities that overlap, keeping the longest match
+        #sort out by length
+        sorted_results = sorted(analysis_result, key=lambda x: x.end - x.start, reverse=True)
+        filtered_results=[]
+
+        for result in sorted_results:
+            is_overlapping=False
+            for filtered in filtered_results:
+                if result.start >=filtered.start and result.end<=filtered.end:
+                    is_overlapping=True
+                    break
+            
+            if not is_overlapping:
+                filtered_results.append(result)
+        return filtered_results
 
     def protect_prompt(self,session_id:str,prompt:str)->str:
         #get list of PII from analyzer
         analysis_result=self.handler.analyze_text(prompt)
 
+        #cleaned results
+        cleaned_results=self._remove_overlaps(analysis_result)
+
         #sort by start index in descending order
-        result=sorted(analysis_result,key=lambda x:x.start,reverse=True)
+        result=sorted(cleaned_results,key=lambda x:x.start,reverse=True)
 
         masked_prompt=prompt
         for res in result:
