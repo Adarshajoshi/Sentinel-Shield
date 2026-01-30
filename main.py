@@ -1,7 +1,8 @@
 import uuid
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException,Request
 from app.api import MaskRequest, MaskResponse, RehydrateRequest
 from app.core.engine import ShieldEngine
+import time
 
 app = FastAPI(
     title="sentinel-shield",
@@ -31,3 +32,12 @@ async def rehydrate_text(request:RehydrateRequest):
         return {"rehydrated_text":final_text}
     except Exception as e:
         raise HTTPException(status_code=500,detail=str(e))
+    
+@app.middleware("http")
+async def add_process_time_header(request:Request,call_next):
+    start_time = time.perf_counter()
+    response = await call_next(request)
+    process_time = time.perf_counter() - start_time
+    # Add the time it took to the response headers
+    response.headers["X-Process-Time"] = f"{process_time:.4f} sec"
+    return response
