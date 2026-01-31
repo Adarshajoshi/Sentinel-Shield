@@ -1,10 +1,12 @@
 import uuid
+from app.core.anonymizer import PIIAnonymizer
 from app.core.analyzer import PIIHandler
 from app.core.vault import SecureVault
 
 class ShieldEngine:
-    def __init__(self):
+    def __init__(self,mode="replace"):
         self.handler=PIIHandler()
+        self.anonymizer = PIIAnonymizer(mode=mode)
         self.vault=SecureVault()
     
     def _remove_overlaps(self,analysis_result):
