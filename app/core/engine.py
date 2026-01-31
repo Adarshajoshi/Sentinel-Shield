@@ -28,6 +28,10 @@ class ShieldEngine:
         #get list of PII from analyzer
         analysis_result=self.handler.analyze_text(prompt)
 
+
+        if not analysis_result:
+            return prompt 
+          
         #cleaned results
         cleaned_results=self._remove_overlaps(analysis_result)
 
