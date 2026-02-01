@@ -1,5 +1,6 @@
 import streamlit as st
 from app.core.engine import ShieldEngine
+import time
 
 # UI Header
 st.set_page_config(page_title="Sentinel-Shield AI Proxy", layout="wide")
@@ -27,9 +28,14 @@ with col1:
     
     if st.button("Protect & Process"):
         if user_input:
+            start_time = time.perf_counter()
             # Step 1: Masking (Week 1 & 2 Logic)
             masked_text = engine.protect_prompt(session_id, user_input)
+            end_time = time.perf_counter() # Stop the clock
+            latency = (end_time - start_time) * 1000 # Convert to milliseconds
+            
             st.session_state['masked'] = masked_text
+            st.sidebar.metric(label="Shield Latency", value=f"{latency:.2f} ms")
             
             # Step 2: Simulate LLM Response (Week 2, Day 2)
             # In a real app, this would call OpenAI/Mistral

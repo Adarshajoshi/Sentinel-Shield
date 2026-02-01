@@ -31,7 +31,7 @@ class ShieldEngine:
     def protect_prompt(self,session_id:str,prompt:str)->str:
         #get list of PII from analyzer
         analysis_result=self.handler.analyze_text(prompt)
-        
+
         if not analysis_result:
             return prompt 
         
