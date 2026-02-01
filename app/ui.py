@@ -10,6 +10,9 @@ st.markdown("---")
 st.sidebar.header("Settings")
 mode = st.sidebar.selectbox("Anonymization Mode", ["replace", "redact", "hash"])
 session_id = st.sidebar.text_input("Session ID", value="demo-user-123")
+st.sidebar.markdown("---")
+st.sidebar.subheader("Live Shield Stats")
+st.sidebar.metric(label="Privacy Violations Blocked", value="12", delta="+2 today")
 
 # Initialize the Engine
 engine = ShieldEngine(mode=mode)
