@@ -15,14 +15,6 @@ Zero-Shot Custom Recognizers: Quickly add new protection rules for custom ID for
 
 Performance First: Optimized middleware with sub-200ms overhead.
 
-🏗️ System Architecture
-User Input ──▶ [ Sentinel Proxy ] ──▶ [ LLM (Safe) ]
-                    │      ▲               │
-             (1) Mask PII  └─ (2) Unmask ──┘
-                    │              │
-              [ Secure Vault ] ◀───┘
-
-
 🛠️ Tech Stack
 Core: Python, Microsoft Presidio, SpaCy (en_core_web_lg)
 
@@ -30,13 +22,10 @@ API: FastAPI, Uvicorn
 
 Environment: Docker
 
-Monitoring: Arize Phoenix (LLM Observability)
-
 🚦 Getting Started
 1. Prerequisites
 Python 3.10+
 
-OpenAI API Key (or local LLM via Ollama)
 
 2. Installation
 # Clone the repo
@@ -51,4 +40,4 @@ python -m spacy download en_core_web_lg
 uvicorn main:app --reload
 
 👨‍💻 Author
-Adarsha Joshi AI/ML Student & Future AI Engineer 
+Adarsha Joshi  
