@@ -1,18 +1,27 @@
-import hashlib
-from app.core.config import CONFIDENCE_THRESHOLD
+from presidio_anonymizer import AnonymizerEngine
+from presidio_anonymizer.entities import OperatorConfig
 
 class PIIAnonymizer:
-    def __init__(self, mode="replace"):
-        self.mode = mode  # Options: "replace", "redact", "hash" 
+    def __init__(self):
+        self.engine = AnonymizerEngine()
 
-    def anonymize(self, text: str, entity_type: str, index: int) -> str:
-        if self.mode == "redact":
-            return "[REDACTED]"
-        
-        if self.mode == "hash":
-            # Creates a unique, non-reversible ID for the same PII 
-            hash_obj = hashlib.md5(text.encode())
-            return f"[HASH_{hash_obj.hexdigest()[:8]}]"
-            
-        # Default: replace with placeholders
-        return f"[{entity_type}_{index}]"
+    def anonymize(self, text, analyzer_results, mode):
+        """
+        Performs permanent anonymization (Redact or Hash).
+        This does NOT store data in the Vault.
+        """
+        if mode == "redact":
+            # Turns "John" into "<PERSON>"
+            operators = {"DEFAULT": OperatorConfig("redact", {})}
+        elif mode == "hash":
+            # Turns "John" into "f7ad9e..."
+            operators = {"DEFAULT": OperatorConfig("hash", {})}
+        else:
+            return text
+
+        result = self.engine.anonymize(
+            text=text,
+            analyzer_results=analyzer_results,
+            operators=operators
+        )
+        return result.text
