@@ -39,8 +39,9 @@ Perfect for ensuring environment consistency and cloud readiness.
 docker build -t sentinel-shield .
 
 Access the dashboard at: http://localhost:8501
-
-Option 2: Local Development
+```
+### **Option 2: Local Development**
+```bash
 # Clone the repository
 git clone [https://github.com/Adarshajoshi/Sentinel-Shield.git](https://github.com/Adarshajoshi/Sentinel-Shield.git)
 cd sentinel-shield
