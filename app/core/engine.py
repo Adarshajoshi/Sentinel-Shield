@@ -1,11 +1,15 @@
 import uuid
+from app.core.anonymizer import PIIAnonymizer
 from app.core.analyzer import PIIHandler
 from app.core.vault import SecureVault
+from app.core.logger import AuditLogger
 
 class ShieldEngine:
-    def __init__(self):
+    def __init__(self,mode="replace"):
         self.handler=PIIHandler()
+        self.anonymizer = PIIAnonymizer(mode=mode)
         self.vault=SecureVault()
+        self.audit = AuditLogger()
     
     def _remove_overlaps(self,analysis_result):
         #Filters out entities that overlap, keeping the longest match
@@ -27,6 +31,13 @@ class ShieldEngine:
     def protect_prompt(self,session_id:str,prompt:str)->str:
         #get list of PII from analyzer
         analysis_result=self.handler.analyze_text(prompt)
+
+        if not analysis_result:
+            return prompt 
+        
+        #log each detected entity
+        for res in analysis_result:
+            self.audit.log_violation(session_id, res.entity_type)
 
         #cleaned results
         cleaned_results=self._remove_overlaps(analysis_result)

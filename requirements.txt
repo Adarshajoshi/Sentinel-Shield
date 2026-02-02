@@ -5,3 +5,6 @@ presidio-anonymizer
 spacy 
 pydantic 
 python-dotenv
+pytest
+httpx
+streamlit
