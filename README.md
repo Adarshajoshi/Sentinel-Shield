@@ -1,43 +1,58 @@
-🛡️ Sentinel-Shield: Enterprise AI Privacy Guardrail
+# 🛡️ Sentinel-Shield
 
-The Problem
-Enterprises are blocking GenAI tools (ChatGPT, Claude) because of Data Leakage. Employees accidentally share PII (Names, SSNs, API Keys), risking GDPR violations and security breaches.
+### **Enterprise-Grade PII Anonymization & Data Rehydration Middleware**
 
-The Solution
-Sentinel-Shield is a high-performance AI Proxy. It intercepts user prompts, anonymizes sensitive data in real-time, and rehydrates the LLM's response so the user gets a personalized answer without the LLM ever seeing the private data.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Docker](https://img.shields.io/badge/docker-ready-2496ed.svg)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-🚀 Key Features
-Multimodal PII Detection: Uses SpaCy (NLP) + Microsoft Presidio for 99% accuracy in entity recognition.
+**Sentinel-Shield** is a high-performance security layer designed to prevent data leakage when using Generative AI. It intercepts user prompts, masks sensitive information (PII/PHI) using a secure local Vault, and "rehydrates" the AI's response—allowing for personalized AI interactions without sensitive data ever leaving your secure environment.
 
-Contextual Rehydration: A secure, local vault maps placeholders (e.g., [PERSON_1]) back to original values post-inference.
+---
 
-Zero-Shot Custom Recognizers: Quickly add new protection rules for custom ID formats using Regex + Logic.
+## 🚀 Key Features
 
-Performance First: Optimized middleware with sub-200ms overhead.
+* **Dual-Layer Detection:** Leverages **SpaCy (NLP)** and **Microsoft Presidio** for enterprise-grade entity recognition.
+* **Custom Enterprise Recognizers:** Out-of-the-box protection for proprietary ID formats (e.g., `PROJ-XXXX`) via custom Regex logic.
+* **Contextual Rehydration:** A secure, in-memory Vault system that maps placeholders (e.g., `[PERSON_1]`) back to original values post-inference.
+* **Performance First:** Optimized for real-time applications with a measured latency overhead of **<150ms**.
+* **Observability & Auditing:** Automated logging of all redaction events (PII-free) for compliance and security monitoring.
+* **Fail-Closed Architecture:** Implements strict error handling; if the privacy engine fails, the request is blocked to ensure zero data leaks.
 
-🛠️ Tech Stack
-Core: Python, Microsoft Presidio, SpaCy (en_core_web_lg)
+---
 
-API: FastAPI, Uvicorn
+## 🛠️ Tech Stack
 
-Environment: Docker
+* **Core Engine:** Python 3.10, Microsoft Presidio, SpaCy (`en_core_web_lg`)
+* **User Interface:** Streamlit (Real-time Dashboard)
+* **Infrastructure:** Docker
 
-🚦 Getting Started
-1. Prerequisites
-Python 3.10+
+---
 
+## 🚦 Getting Started
 
-2. Installation
-# Clone the repo
-git clone https://github.com/Adarshajoshi/Sentinel-Shield.git
+### **Option 1: Run with Docker (Recommended)**
+Perfect for ensuring environment consistency and cloud readiness.
+
+```bash
+# Build the image
+docker build -t sentinel-shield .
+
+Access the dashboard at: http://localhost:8501
+
+Option 2: Local Development
+# Clone the repository
+git clone [https://github.com/Adarshajoshi/Sentinel-Shield.git](https://github.com/Adarshajoshi/Sentinel-Shield.git)
 cd sentinel-shield
 
 # Install dependencies
 pip install -r requirements.txt
 python -m spacy download en_core_web_lg
 
-3. Run the Proxy
-uvicorn main:app --reload
+# Set PYTHONPATH and run the UI
+# Windows (PowerShell):
+$env:PYTHONPATH = "."
+python -m streamlit run app/ui.py
 
-👨‍💻 Author
-Adarsha Joshi  
+# Run the container
+docker run -p 8501:8501 sentinel-shield
